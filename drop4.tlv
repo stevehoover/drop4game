@@ -4,8 +4,16 @@
    / Connect 4 game from Hasbro.
    
    use(m5-1.0)
-   default_var(player0_id, random)
-   default_var(player1_id, random)
+   / Player IDs should be defined by each player's library file using
+   / var(player_id, xxx)
+   / thus defining a stack of player_ids.
+   
+   / Push up to two random players if player_id's are not already defined.
+   repeat(2, [
+      if(m5_depth_of(player_id) < 2, [
+         var(player_id, random)
+      ])
+   ])
    
    
    var(spacing, 26)  /// Width/height of checker position.
@@ -25,9 +33,9 @@
    $Player <= $reset ? 1'b0 : ! $Player;
    
    /player0
-      m5+call(['player_']m5_player0_id, /player0)
+      m5+call(['player_']m5_get_ago(player_id, 0), /player0)
    /player1
-      m5+call(['player_']m5_player1_id, /player1)
+      m5+call(['player_']m5_get_ago(player_id, 1), /player1)
    /active_player
       $ANY = /top$Player ? /top/player1$ANY : /top/player0$ANY;
    
