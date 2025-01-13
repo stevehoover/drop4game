@@ -29,7 +29,9 @@
    $play[2:0] = $rand % m5_XX_CNT;
 
 \TLV drop4game()
-   $reset = *reset;
+   // Reset, delayed by one cycle, so we have an empty board on cycle 0.
+   $real_reset = *reset;
+   $reset = >>1$real_reset;
    
    // Which player's turn is it?
    $Player <= $reset ? 1'b0 : ! $Player;
@@ -141,7 +143,7 @@
                
                // Animate the drop.
                this.timeout = null
-               if ('/xx[this.getIndex("xx")]$play'.asBool() && ! '$Filled'.asBool() && ! '/top$win'.asBool()) {
+               if (! '/top$reset'.asBool() && '/xx[this.getIndex("xx")]$play'.asBool() && ! '$Filled'.asBool() && ! '/top$win'.asBool()) {
                   // This checker is in the drop and is not the final play after a win (which we'll ignore).
                   let index = this.getIndex("yy")
                   let fill = '$fill'.asBool()
