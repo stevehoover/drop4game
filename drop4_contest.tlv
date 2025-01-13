@@ -6,7 +6,7 @@
    use(m5-1.0)
    
    / Instructions:
-   / Substitute URLs for the player circuits here, the first plays first as yellow.
+   / Substitute URLs for the player circuits here, the first plays first as red.
 \SV
    m4_include_lib(https://raw.githubusercontent.com/stevehoover/drop4game/6baddeb046a3e261bb45bbc2cb879cd8c9931778/player_template.tlv)
    m4_include_lib(https://raw.githubusercontent.com/stevehoover/drop4game/6baddeb046a3e261bb45bbc2cb879cd8c9931778/player_template.tlv)
