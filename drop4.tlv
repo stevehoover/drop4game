@@ -17,6 +17,8 @@
    
    
    var(spacing, 26)  /// Width/height of checker position.
+   var(player0_color, "#d01010")
+   var(player1_color, "#d0d010")
    var(hole_color, "#F0F0F0")
    define_hier(XX, 7, 0)
    define_hier(YY, 5, 0)
@@ -31,6 +33,32 @@
    
    // Which player's turn is it?
    $Player <= $reset ? 1'b0 : ! $Player;
+   
+   /player[1:0]
+      \viz_js
+         box: {width: 100, height: 16, fill: "#a0e0a0"},
+         init() {
+            return {
+               circle: new fabric.Circle({
+                    left: 4.5, top: 2.5,
+                    radius: 5, strokeWidth: 1,
+                    fill: "gray",
+                    stroke: "#00000080"}),
+               id: new fabric.Text("-", {
+                    left: 17, top: 4,
+                    fontSize: 7, fontFamily: "Roboto", fill: "black"
+               }),
+            }
+         },
+         render() {
+            // Can't do this in init() because this.getIndex isn't currently available.
+            let o = this.getObjects()
+            let i = this.getIndex()
+            o.circle.set({fill: i ? m5_player1_color : m5_player0_color,
+                          stroke: '/top$win'.asBool() && ('/top>>1$Player'.asInt() == this.getIndex()) ? "cyan" : "gray"})
+            o.id.set({text: this.getIndex() ? "m5_get_ago(player_id, 1)" : "m5_player_id"})
+         },
+         where: {left: (26 * m5_XX_CNT - 100) / 2, top: -50},
    
    /player0
       m5+call(['player_']m5_get_ago(player_id, 0), /player0)
@@ -56,7 +84,7 @@
             },
             render() {
                //debugger
-               let playerColor = function(player) {return player ? "#d01010" :"#d0d010"}
+               let playerColor = function(player) {return player ? m5_player1_color : m5_player0_color}
                let player_color = playerColor('$Player'.asBool())
                let drop_color = playerColor('/top$Player'.asBool())
                this.getObjects().circle.set({
