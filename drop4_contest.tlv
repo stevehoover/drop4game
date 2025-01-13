@@ -12,7 +12,7 @@
    m4_include_lib(https://raw.githubusercontent.com/stevehoover/drop4game/6baddeb046a3e261bb45bbc2cb879cd8c9931778/player_template.tlv)
    
    // Include the game.
-   m4_include_lib(https://raw.githubusercontent.com/stevehoover/drop4game/2291bdaf63822748d48ca654b1de342fd75a4a0d/drop4.tlv)
+   m4_include_lib(https://raw.githubusercontent.com/stevehoover/drop4game/0c409c33dc9e576ab8521ae10f9b91abfedd9675/drop4.tlv)
 \SV
    // Macro providing required top-level module definition, random
    // stimulus support, and Verilator config.
