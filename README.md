@@ -2,6 +2,8 @@
 
 A Makerchip library for a 4-in-a-row game with the gameplay of Hasbro's Connect 4 game.
 
+![](Drop4.gif)
+
 # Compete
 
 To create a player circuit to compete with, &lt;Ctrl&gt;-click this link, save locally, edit/debug, and save it to a GitHub repository.
