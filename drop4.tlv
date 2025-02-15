@@ -16,12 +16,16 @@
    ])
    
    
-   var(spacing, 26)  /// Width/height of checker position.
+   var(x_spacing, 28)  /// Width of checker position.
+   var(y_spacing, 25)  /// Height of checker position.
+   var(x_border, 4)    /// Additional space at left/right edge of board.
+   var(top_border, 5)  /// Additional space at top edge of board.
+   var(bottom_border, 10) /// Additional space at bottom edge of board.
    var(player0_color, "#d01010")
    var(player1_color, "#d0d010")
    var(hole_color, "#F0F0F0")
    define_hier(XX, 7, 0)
-   define_hier(YY, 5, 0)
+   define_hier(YY, 6, 0)
 
 // Player logic providing random plays.
 \TLV player_random(/_top)
@@ -72,17 +76,19 @@
    /m5_XX_HIER
       \viz_js
          all: {
-            box: {left: -3, top: -4, fill: "#1010D0", strokeWidth: 0, height: m5_spacing * 5 + 15, width: m5_spacing * 7 + 6, strokeWidth: 1, stroke: "darkblue"},
+            box: {left: -m5_x_border, top: -m5_top_border, fill: "#1010D0", strokeWidth: 0, width: m5_x_spacing * m5_XX_CNT + 2 * m5_x_border, height: m5_y_spacing * m5_YY_CNT + m5_top_border + m5_bottom_border, strokeWidth: 1, stroke: "darkblue"},
          },
          box: {strokeWidth: 0},
       // Is the play in this column.
       $play = /top/active_player$play == #xx;
       /m5_YY_HIER
          \viz_js
-            box: {strokeWidth: 0, width: 26, height: 26},
+            box: {strokeWidth: 0, width: m5_x_spacing, height: m5_y_spacing},
             layout: "vertical",
             template: {
-               circle: ["Circle", {left: 3, top: 3, radius: 10, strokeWidth: 1, stroke: "#303090A0", fill: m5_hole_color}]
+               circle: ["Circle", {left: m5_x_spacing / 2, top: m5_y_spacing / 2, radius: 10, strokeWidth: 1, stroke: "#303090A0", fill: m5_hole_color,
+                                   originX: "center",
+                                   originY: "center"}]
             },
             render() {
                //debugger
@@ -175,7 +181,7 @@
             },
          $reset = /top$reset;
          // Is this position above the top of the stack.
-         $fill_pos = ! $Filled && (#yy == 4 || /xx/yy[(#yy + 1) % 5]$Filled);
+         $fill_pos = ! $Filled && ((#yy == m5_YY_CNT - 1) || /xx/yy[(#yy + 1) % m5_YY_CNT]$Filled);
          // Fill this space this cycle.
          $fill = $fill_pos && /xx$play;
          // Is this space filled.
