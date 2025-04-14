@@ -133,50 +133,38 @@
                let circle = this.getObjects().circle
                
                // Animate the win.
-               this.win_timeout = null
                circle.set({stroke: "#303090A0"})
-               let highlight = () => {
+               let highlight = this.thenRender( () => {
                   circle.set({stroke: "cyan"})
-                  this.getCanvas().requestRenderAll()
-               }
+                  //this.getCanvas().requestRenderAll()
+               })
                if (winning_checker) {
                   if (won) {
                      highlight()
                   } else {
-                     this.win_timeout = setTimeout(highlight, m5_YY_CNT * 60)
+                     setTimeout(highlight, m5_YY_CNT * 60)
                   }
                }
                
                // Animate the drop.
-               this.timeout = null
                if (! '/top$reset'.asBool() && '/xx[this.getIndex("xx")]$play'.asBool() && ! '$Filled'.asBool() && ! '/top$win'.asBool()) {
                   // This checker is in the drop and is not the final play after a win (which we'll ignore).
                   let index = this.getIndex("yy")
-                  let fill = '$fill'.asBool()
-                  this.timeout = setTimeout(() => {
+                  setTimeout(this.thenRender( () => {
                      circle.set({
                           fill: drop_color
                      })
-                     if (! fill) {
+                     if (! '$fill'.asBool()) {
                         // Not the checker's final resting place.
-                        this.timeout = setTimeout(() => {
-                             this.timeout = null
+                        setTimeout(this.thenRender( () => {
                              circle.set({
                                   fill: m5_hole_color
                              })
-                             this.getCanvas().requestRenderAll()
-                        }, 40)
+                             //this.getCanvas().requestRenderAll()
+                        }), 40)
                      }
-                     this.getCanvas().requestRenderAll()
-                  }, index * 60)
-               }
-            },
-            unrender() {
-               if (this.timeout !== null) {
-                  clearTimeout(this.timeout)
-               }
-               if (this.win_timeout !== null) {
-                  clearTimeout(this.win_timeout)
+                     //this.getCanvas().requestRenderAll()
+                  }), index * 60)
                }
             },
          $reset = /top$reset;
