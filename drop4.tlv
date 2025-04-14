@@ -136,7 +136,6 @@
                circle.set({stroke: "#303090A0"})
                let highlight = this.thenRender( () => {
                   circle.set({stroke: "cyan"})
-                  //this.getCanvas().requestRenderAll()
                })
                if (winning_checker) {
                   if (won) {
@@ -160,10 +159,8 @@
                              circle.set({
                                   fill: m5_hole_color
                              })
-                             //this.getCanvas().requestRenderAll()
                         }), 40)
                      }
-                     //this.getCanvas().requestRenderAll()
                   }), index * 60)
                }
             },
