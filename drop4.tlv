@@ -21,8 +21,8 @@
    var(x_border, 4)    /// Additional space at left/right edge of board.
    var(top_border, 5)  /// Additional space at top edge of board.
    var(bottom_border, 10) /// Additional space at bottom edge of board.
-   var(player0_color, "#d01010")
-   var(player1_color, "#d0d010")
+   var(player0_color, d01010)
+   var(player1_color, d0d010)
    var(hole_color, "#F0F0F0")
    define_hier(XX, 7, 0)
    define_hier(YY, 6, 0)
@@ -60,7 +60,7 @@
             // Can't do this in init() because this.getIndex isn't currently available.
             let o = this.getObjects()
             let i = this.getIndex()
-            o.circle.set({fill: i ? m5_player1_color : m5_player0_color,
+            o.circle.set({fill: i ? "#m5_player1_color" : "#m5_player0_color",
                           stroke: '/top$win'.asBool() && ('/top>>1$Player'.asInt() == this.getIndex()) ? "cyan" : "gray"})
             o.id.set({text: this.getIndex() ? "m5_get_ago(player_id, 1)" : "m5_player_id"})
          },
@@ -68,10 +68,13 @@
    
    /player0
       m5+call(['player_']m5_get_ago(player_id, 0), /player0)
+      $color[23:0] = 24'h\m5_player0_color;
    /player1
       m5+call(['player_']m5_get_ago(player_id, 1), /player1)
+      $color[23:0] = 24'h\m5_player1_color;
    /active_player
       $ANY = /top$Player ? /top/player1$ANY : /top/player0$ANY;
+      `BOGUS_USE($color)
    
    /m5_XX_HIER
       \viz_js
@@ -92,7 +95,7 @@
             },
             render() {
                //debugger
-               let playerColor = function(player) {return player ? m5_player1_color : m5_player0_color}
+               let playerColor = function(player) {return player ? "#m5_player1_color" : "#m5_player0_color"}
                let player_color = playerColor('$Player'.asBool())
                let drop_color = playerColor('/top$Player'.asBool())
                this.getObjects().circle.set({
