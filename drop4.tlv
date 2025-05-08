@@ -137,14 +137,11 @@
                
                // Animate the win.
                circle.set({stroke: "#303090A0"})
-               let highlight = this.thenRender( () => {
-                  circle.set({stroke: "cyan"})
-               })
                if (winning_checker) {
-                  if (won) {
-                     highlight()
+                  if (!won) {
+                    circle.wait(m5_YY_CNT * 60).thenSet({stroke: "cyan"})
                   } else {
-                     setTimeout(highlight, m5_YY_CNT * 60)
+                    circle.set({stroke: "cyan"})
                   }
                }
                
@@ -152,19 +149,11 @@
                if (! '/top$reset'.asBool() && '/xx[this.getIndex("xx")]$play'.asBool() && ! '$Filled'.asBool() && ! '/top$win'.asBool()) {
                   // This checker is in the drop and is not the final play after a win (which we'll ignore).
                   let index = this.getIndex("yy")
-                  setTimeout(this.thenRender( () => {
-                     circle.set({
-                          fill: drop_color
-                     })
-                     if (! '$fill'.asBool()) {
-                        // Not the checker's final resting place.
-                        setTimeout(this.thenRender( () => {
-                             circle.set({
-                                  fill: m5_hole_color
-                             })
-                        }), 40)
-                     }
-                  }), index * 60)
+                  circle.wait(index * 60).thenSet({fill: drop_color})
+                  if (! '$fill'.asBool()) {
+                     // Not the checker's final resting place.
+                     circle.thenWait(40).thenSet({fill: m5_hole_color})
+                  }
                }
             },
          $reset = /top$reset;
